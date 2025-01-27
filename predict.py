@@ -74,7 +74,9 @@ def main():
 
     if args.weights:
         ckpt = torch.load(args.weights, map_location='cpu')
-        model = model_class(**ckpt['hyper_parameters'], training=False)
+        hpobj = ckpt['hyper_parameters']
+        hpobj["training"] = False
+        model = model_class(**hpobj)
         model.model.load_state_dict(ckpt['params'], strict=False)
         model = model.cuda()
         
